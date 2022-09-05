@@ -1,0 +1,10 @@
+modules:
+  compass:globalPage:
+    - key: onboarding-project-hello-world-global-page
+      function: global
+      title: onboarding-project
+  function:
+    - key: global
+      handler: global-page.run
+app:
+  id: ari:cloud:ecosystem::app/9d0a0fb1-7099-4cde-b1ca-27403058b581

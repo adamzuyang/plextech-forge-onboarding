@@ -32,7 +32,7 @@ To create a Forge app, you will first need to set up an Atlassian account. Go to
 
 ## Setup: Forge
 
-To setup Forge, we will mostly be following the instructions [here](https://developer.atlassian.com/platform/forge/getting-started/), but following this README guide should be sufficient to get you up and running.
+This section is based on the Forge documentation [here](https://developer.atlassian.com/platform/forge/getting-started/), but following this README guide should be sufficient to get you up and running.
 
 ### Installing Forge
 
@@ -61,7 +61,7 @@ Coming back to the command line, run `forge login` to log in to the Forge CLI. E
 
 ### Set up an Atlassian cloud developer site
 
-Creating an Atlassian cloud developer site allows you to install and test your app with Jira and Compass. You can install your app to multiple Atlassian sites however, app data won't be shared between separate Atlassian sites, products, or Forge environments.
+Creating an Atlassian cloud developer site allows you to install and test your app with Jira and Compass. You can install your app to multiple Atlassian sites. However, app data won't be shared between separate Atlassian sites, products, or Forge environments.
 
 1. Go to http://go.atlassian.com/cloud-dev and create a site using the email address associated with your Atlassian account. Call your site `plextech-onboarding-{your first name}.atlassian.net`
 2. Once your site is ready, log in and complete the setup wizard.
@@ -70,7 +70,7 @@ Creating an Atlassian cloud developer site allows you to install and test your a
    - For "Name your first space", enter `plextech-onboarding-{your first name}`
    - Skip "Invite your teammates"
 
-Now you'll have to separately create a Compass site. Go to https://www.atlassian.com/software/compass and click "Get it free" next to the Compass banner.
+Now, you'll have to separately create a Compass site. Go to https://www.atlassian.com/software/compass and click "Get it free" next to the Compass banner.
 Make sure your site name is still `plextech-onboarding-{your first name}.atlassian.net` and click "Agree and start now". Follow the prompts to spin up your Compass site. This may take a few minutes, so it's the perfect time for a stretch break! Follow the prompts until you reach the Compass home page.
 
 ## Your Forge App
@@ -109,7 +109,7 @@ To ensure that your application has the necessary Node.js modules installed, run
 
 ### Deploying and Installing Your Forge App
 
-Now that your Forge app is created, we now need to deploy it to Atlassian's servers. Run `forge deploy` at your project root. This will build, compile, and deploy your code to a development environment. This may take half a minute or so, so feel free to take another stretch break!
+Now that your Forge app is created, we need to deploy it to Atlassian's servers. Run `forge deploy` at your project root. This will build, compile, and deploy your code to a development environment. This may take half a minute or so, so feel free to take another stretch break!
 
 Now you have to install your Forge app to your Atlassian Compass site. To do so, run `forge install`.
 - For your product, select "Compass"
@@ -117,19 +117,21 @@ Now you have to install your Forge app to your Atlassian Compass site. To do so,
 
 Congratulations! Your app is now installed on Compass. To see your app in action, go to `https://plextech-onboarding-{your first name}.atlassian.net/compass`. At the top navigation bar, you should see now that there is a little arrow to the right of the "Apps" button. Click that button and select your new application.
 
-You will be redirected to your application's page. This is the Compass global page that we mentioned earlier! For now, there's now much, just a hello world, but we'll soon be extending your app's functionality.
+You will be redirected to your application's page. This is the Compass global page that we mentioned earlier! For now, there's not much, just a hello world, but we'll soon be extending your app's functionality.
 
 ### A Word About Developing Using the Forge CLI
 
 One nice thing about developing on Forge is that your installed apps automatically pick up new deployments. For example, try going to `src/global-page.js` and replacing "Hello world!" with "Cheese is delicious". After saving this change, run `forge deploy` again and refresh your application. You should now see that the text has been updated!
 
-The only time when you'll need to re-install your application is when you update your app's permission. Luckily, the Forge CLI makes re-installing apps very intuitive.
+The only time when you'll need to re-install your application is when you update your app's permission. Luckily, the Forge CLI makes re-installing apps very intuitive (which we'll see in a moment).
 
 In terms of debugging, Forge does a few things differently. Unlike typical React applications, `console.log` in a Forge app will not output to your browser's developer console. Instead, to see the results of calls to `console.log`, you'll have to run `forge logs` on your command line. To learn more about debugging with Forge, visit [here](https://developer.atlassian.com/platform/forge/debugging/).
 
 ### Creating Your Compass Form
 
 We will now create a form on your app's global page. This is where I won't be holding your hand as much, so you'll have to dive into the documentation yourself!
+
+Developing a UI with Forge is a lot like developing a single-page app with React. Everything is function-component based, and Forge comes with several built-in components that you can use.
 
 For this section of the project, I'd like you to create a form that looks like this on your app's global page:
 
@@ -168,7 +170,7 @@ To make API calls to Jira, you will also have to install your application onto J
 
 ### Jira: Constructing the REST API Call
 
-To send information from your Compass form to Jira, we will be making use of Jira's REST API. In order to access the API from Forge, you will have to install a new Node package into your environment. At the root directory of your project, run `npm install @forge/api`.
+To send information from your Compass form to Jira, we will be making use of Jira's REST API. In order to access the API from Forge, you will have to install a new Node package into your environment. At the root directory of your project, run `npm install @forge/api`. You will be using this library to make API calls to Atlassian.
 
 One thing that's nice about creating Atlassian requests using the `@forge/api` library is that boring stuff like authentication happen automatically. For this section, you should reference Jira's REST API documentation, which you can find [here](https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/).
 
@@ -187,15 +189,15 @@ const response = await api.[asApp() | asUser()].requestJira(route`/rest/api/3/is
 });
 ```
 
-Note that the `route` object makes it so that our application works with any site. As a little quirk of Atlassian's API, if you want to access your data at your site, you'd have to prepend the API route with your site's domain (i.e., you've have to provide `https://your-domain.atlassian.net/rest/api/3/events` as your URL). The `route` object dynamically changes the domain based on which site it is running on.
+Note that the `route` object makes it so that our application works with any site. As a little quirk of Atlassian's API, if you want to access the REST API at your site, you'd have to prepend the API route with your site's domain (i.e., you've have to provide `https://your-domain.atlassian.net/rest/api/3/events` as your URL). The `route` object dynamically changes the domain based on which site it is running on.
 
 Also note that you can make a request either using `asApp` or `asUser`. If you make a request using `asApp`, your request will be made with the same permissions provided to it in the `manifest.yml` file. If you make a request using `asUser` on the other hand, your request will be made with the same permissions that the user has. For this tutorial, please use `asApp`.
 
 Now, take a look at Jira's documentation for creating a new issue with the REST API: https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-post
 
-Read through the "Create issue" section carefully. If you take a look at the example with Forge, you'll notice that the request payload in `bodyData` is quite large. For the purpose of this onboarding project, you will not have to provide that much data, but you will have to provide the parameter , `bodyData["fields"]["project"]` so Jira knows which project to send the issue to, as well as the parameters `bodyData["fields"]["issuetype"]`, `bodyData["fields"]["summary"]`, and `bodyData["fields"]["description"]` to actually construct the issue. For this project, please make the issue that you send to Jira is of type "Task".
+Read through the "Create issue" section carefully. If you take a look at the example with Forge, you'll notice that the request payload in `bodyData` is quite large. For the purpose of this onboarding project, you will not have to provide that much data, but you will have to provide the parameter, `bodyData["fields"]["project"]` so Jira knows which project to send the issue to, as well as the parameters `bodyData["fields"]["issuetype"]`, `bodyData["fields"]["summary"]`, and `bodyData["fields"]["description"]` to actually construct the issue. For this project, please make sure the issue that you send to Jira is of type "Task".
 
-Once you are done writing your code, run `forge deploy` to deploy your changes. If everything works properly, after submitting your form, you should see a new issue appear in Jira.
+Once you are done writing your code, ensure all your Node modules are properly installed by running `npm install`. Then, run `forge deploy` to deploy your changes. If everything works properly, after submitting your form, you should see a new issue appear in Jira.
 
 To test your app, try giving your form a variety of inputs, including inputs with multiple lines for your "Description" field.
 
@@ -213,7 +215,7 @@ If you take a look at the example request [here](https://developer.atlassian.com
 }
 ```
 
-You can also identify your project using its unique key. If you go to `https://plextech-onboarding-{your first name}.atlassian.net/jira/projects`, you will see that each project has a unique key. If you supply this key in your request, Jira will know to send the issue you are constructing to that project:
+You can also identify your project using a key. If you go to `https://plextech-onboarding-{your first name}.atlassian.net/jira/projects`, you will see that each project has a unique key. If you supply this key in your request, Jira will know to send the issue you are constructing to that project:
 
 ```javascript
 "project": {
@@ -223,4 +225,49 @@ You can also identify your project using its unique key. If you go to `https://p
 
 #### Hint 3: My request fails with "There was an error parsing JSON" when given multi-line inputs.
 
-If your app fails when given a multiple-line input, that means that you are not escaping newline characters properly. Shockingly, there doesn't seem to be a built-in JavaScript method that will do this for you. As a solution, try looking into Javascript's `.replace` function [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace) for escaping newline characters. This [Stack Overflow post](https://stackoverflow.com/questions/4253367/how-to-escape-a-json-string-containing-newline-characters-using-javascript) is also a good lead.
+If your app fails when given a multiple-line input, that means that you are not escaping newline characters properly. Shockingly, there doesn't seem to be a built-in JavaScript method that will do this for you. As a solution, try looking into Javascript's `.replace` function [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace) for escaping newline characters. Play around with different regex to see what works best for escaping newlines.
+
+## GraphQL: A (not so) Gentle Introduction
+
+The form is still a bit plain--let's use this opportunity to include a welcome message for the user! As the deliverable for this section, include some text at the top of the form that says "Welcome, {name of user accessing the form}!".
+
+There are a number of ways in which you can do this, but let's get the user's name using GraphQL, which is the primary API query language for Atlassian Compass. At a high level, GraphQL accesses data directly through a query, allowing data to be gathered without having to access multiple endpoints. While REST APIs rely on routes and request bodies, GraphQL uses queries and a single endpoint (and additional information in headers, etc.).
+
+As an example, suppose we wanted to get a user's email address through an external API. In the REST paradigm, you might submit a request that looks like this to get the user's information:
+
+```JavaScript
+api.requestRest(
+    route: "rest/api/user?name=Adam"  // One of multiple endpoints
+)
+```
+
+However, this endpoint would likely give you all of the user's data (such as name, age, height, etc.), some of which you may not need.
+
+Whereas with GraphQL, you can request only the information that you want:
+
+```JavaScript
+api.requestGraph(
+    route: "graphql/api"   // GraphQL has a single endpoint!
+    query: `query MyQuery {
+        user(name: "Adam") {
+            email
+        }
+    }`                     // Retrieves just the email
+)
+```
+
+I highly encourage you to read more about GraphQL [here](https://graphql.org/) if you can. However, all you need to know about GraphQL to move forward with this project is [how to write GraphQL queries](https://graphql.org/learn/queries/) with arguments. Also keep in mind that when you submit a query to Atlassian, it must have a name assigned to it (e.g., `MyQuery` in the above example).
+
+### Using GraphQL in Forge
+
+Forge abstracts a lot of the process of creating a GraphQL query to Atlassian. To request information through GraphQL, make use of the `api.[asApp | asUser]().requestGraph` method. The documentation for this method and an example of its use can be found [here](https://developer.atlassian.com/platform/forge/runtime-reference/product-fetch-api/#requestgraph).
+
+Recall that our goal is to include some text at the top of the form that says "Welcome, {name of user accessing the form}!" To get a user's name, I recommend making the query using `asApp` instead of `asUser`, as there can be some permissions issues with the latter. In addition, you will have to update your app's permissions to access user information. At the `permissions->scopes` section of your `manifest.yml` file, add the scope `read:account`. (Don't forget to re-deploy your app with `forge deploy` and upgrade your app using `forge install --upgrade` to both Compass and Jira.)
+
+For the `requestGraph` example [here](https://developer.atlassian.com/platform/forge/runtime-reference/product-fetch-api/#requestgraph), pay close attention to the way they use `useEffect`. Note that you cannot execute a function directly within a function component and instead have to make use of [UI kit hooks](https://developer.atlassian.com/platform/forge/ui-kit-hooks-reference/). My recommendation is to use `useEffect` to make the call to the Atlassian API and use `useState` to update your app's Global page.
+
+To help you construct your query, Atlassian has an interactive [GraphQL explorer](https://api.atlassian.com/graphql). If you click on the "Explorer" button, you can see all of the queries that Atlassian supports. For this project, you'll probably want to use the `user` query. If you take a look at the query, you'll see that the query requires an `accountId`. You can get the current user's account ID through the [`useProductContext`](https://developer.atlassian.com/platform/forge/ui-kit-hooks-reference/#useproductcontext) UI kit hook.
+
+## Final Deliverables
+
+As your final deliverable, please push your completed code to a Github repository and add me (@adamzuyang) and Winston (@PoohTheWinnie) as collaborators. In addition, we will ask everyone to demo their completed project.

@@ -203,7 +203,7 @@ To test your app, try giving your form a variety of inputs, including inputs wit
 
 #### Hint 1: What is an `issuetype`?
 
-If you navigate to your Jira project and click "Project settings"->"Issue types", you will see that there are three default issue types: "Epic", "Task", and "Subtask". Click on "Task". If you take a look at your URL, you will see that it has a number at the end (in this case 10001). This is the ID for the "Task" issue type.
+If you navigate to your Jira project and click "Project settings"->"Issue types", you will see that there are three default issue types: "Epic", "Task", and "Subtask". Try figuring out how to set the task type using a "name" parameter in your request body.
 
 #### Hint 2: What should I put for `project`?
 
@@ -225,7 +225,9 @@ You can also identify your project using a key. If you go to `https://plextech-o
 
 #### Hint 3: My request fails with "There was an error parsing JSON" when given multi-line inputs.
 
-If your app fails when given a multiple-line input, that means that you are not escaping newline characters properly. Shockingly, there doesn't seem to be a built-in JavaScript method that will do this for you. As a solution, try looking into Javascript's `.replace` function [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace) for escaping newline characters. Play around with different regex to see what works best for escaping newlines.
+If your app fails when given a multiple-line input, that means that you are not escaping newline characters properly. The typical way to solve this is to construct your request body as a [JavaScript object](https://www.w3schools.com/js/js_objects.asp) and then stringifying the object before sending your request. `stringify` handles newline escaping automatically.
+
+If you insist on not using Javascript's `stringify` method, there shockingly doesn't seem to be a built-in JavaScript method that will escape newlines for you. As a solution, try looking into Javascript's `.replace` function [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace) for escaping newline characters. Play around with different regex to see what works best for escaping newlines.
 
 ## GraphQL: A (not so) Gentle Introduction
 
